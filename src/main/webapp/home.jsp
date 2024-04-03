@@ -92,12 +92,12 @@ padding: 20px;
 	</tr>
 	<% for (Task task: tasks) {%>
 	<tr>
-	<td><% task.getTaskid(); %></td>
-	<td><% task.getTasktitle(); %></td>
-	<td><% task.getTaskdescription(); %></td>
-	<td><% task.getTaskpriority(); %></td>
-	<td><% task.getTaskduedate(); %></td>
-	<td><% task.getTaskstatus(); %></td>
+	<td><%= task.getTaskid() %></td>
+	<td><%= task.getTasktitle() %></td>
+	<td><%= task.getTaskdescription() %></td>
+	<td><%= task.getTaskpriority() %></td>
+	<td><%= task.getTaskduedate() %></td>
+	<td><%= task.getTaskstatus() %></td>
 	</tr>
 	
 	<% } %>
