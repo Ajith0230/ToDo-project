@@ -22,9 +22,6 @@ public class SaveUser extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		
-		
-		int id = Integer.parseInt(req.getParameter("id"));
-		
 		String name = req.getParameter("name");
 		String mail = req.getParameter("email");
 		long contact = Long.parseLong(req.getParameter("contact"));
@@ -33,9 +30,9 @@ public class SaveUser extends HttpServlet{
 		Part imagepart = req.getPart("image");
 		byte[] image = imagepart.getInputStream().readAllBytes();
 		
-		User user = new User(id, name, mail, contact, password, image);
 		Dao dao = new Dao();
 		try {
+		User user = new User(dao.getUserId(), name, mail, contact, password, image);
 			int res = dao.saveUser(user);
 			if(res > 0)
 			{
