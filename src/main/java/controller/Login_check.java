@@ -39,7 +39,7 @@ public class Login_check extends HttpServlet{
 						req.setAttribute("tasks", tasks);
 						
 						HttpSession session =req.getSession();
-						req.getSession().setAttribute("user", user);
+						session.setAttribute("user", user);
 						req.getRequestDispatcher("home.jsp").include(req, resp);
 					}
 					else
