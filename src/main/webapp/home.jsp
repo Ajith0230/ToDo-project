@@ -2,6 +2,7 @@
 <%@page import="java.util.*"%>
 <%@ page import="controller.Login_check" %>
 <%@ page import="dto.*" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -149,8 +150,8 @@ color: red;
 	<td><input type="text" value="<%= task.getTaskpriority() %>" name="priority"></td>
 	<td><input type="date" value="<%= task.getTaskduedate() %>" name="duedate"></td>
 	<td><input type="text" value="<%= task.getTaskstatus() %>" name="status"></td>
-	<input value="<%=task.getTaskid()%>" name ="id" >
-	<td><input type="submit">update</td>
+	<input style="display: none;" value="<%=task.getTaskid()%>" name ="id" >
+	<td><input type="submit">to update</td>
 	</form>
 	<td><a href="deletetask?taskid=<%=task.getTaskid()%>"> Delete</a> </td>
 	</tr>
@@ -158,6 +159,7 @@ color: red;
 	<% } %>
 	
 	</table>
+
          
     
 </body>
