@@ -155,6 +155,6 @@ public class Dao {
 		pst.setString(4, taskvalue.getTaskduedate());
 		pst.setString(5, taskvalue.getTaskstatus());
 		pst.setInt(6,taskvalue.getTaskid());
-
+		pst.executeUpdate();
 	}
 }
