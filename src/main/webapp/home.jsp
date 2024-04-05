@@ -92,6 +92,15 @@ button:hover
  background: white;
  color: black;
 }
+input
+{
+background-color: transparent;
+color: white;
+}
+a
+{
+color: red;
+}
 </style>
 </head>
 <body>
@@ -134,14 +143,15 @@ button:hover
 	<% for (Task task: tasks) {%>
 	<tr>
 	<td><%= num %></td>
-	<td><input type="text" value="<%= task.getTasktitle() %>"></td>
-	<td><input type="text" value="<%= task.getTaskdescription() %>"></td>
-	<td><input type="text" value="<%= task.getTaskpriority() %>"></td>
-	<td><input type="text" value="<%= task.getTaskduedate() %>"></td>
-	<td><input type="text" value="<%= task.getTaskstatus() %>"></td>
-	
-	<td><a href="edittask?task<%session.setAttribute("taskvalue", task);%>">update</a></td>
-	
+	<form action="edittask" method="get">
+	<td><input type="text" value="<%= task.getTasktitle() %>" name="title"></td>
+	<td><input type="text" value="<%= task.getTaskdescription() %>" name="description"></td>
+	<td><input type="text" value="<%= task.getTaskpriority() %>" name="priority"></td>
+	<td><input type="date" value="<%= task.getTaskduedate() %>" name="duedate"></td>
+	<td><input type="text" value="<%= task.getTaskstatus() %>" name="status"></td>
+	<input value="<%=task.getTaskid()%>" name ="id" >
+	<td><input type="submit">update</td>
+	</form>
 	<td><a href="deletetask?taskid=<%=task.getTaskid()%>"> Delete</a> </td>
 	</tr>
 	<% num +=1; %>
