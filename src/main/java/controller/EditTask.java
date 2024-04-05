@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -17,18 +18,18 @@ import dto.User;
 @WebServlet("/edittask")
 public class EditTask extends HttpServlet{
 
-	
+		
 		@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
+			
 			HttpSession session = req.getSession();
-			Task taskvalue = (Task) session.getAttribute("taskvalue");
 			
 			Dao dao = new Dao();
 			
 			try {
-				dao.editTask(taskvalue);
-				
+				dao.editTask(Integer.parseInt(req.getParameter("id")),req.getParameter("title"), req.getParameter("description"), req.getParameter("priority"), req.getParameter("duedate"), req.getParameter("status"));
+	
 				
 				User user = (User)session.getAttribute("user");
 				
