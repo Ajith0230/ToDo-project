@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.xdevapi.Result;
@@ -20,7 +21,6 @@ import dto.User;
 public class Dao {
 	
 	User user = new User();
-	
 	public static Connection connection() throws ClassNotFoundException, SQLException
 	{
 		Class.forName("com.mysql.cj.jdbc.Driver");//not necessary
@@ -34,8 +34,8 @@ public class Dao {
 		Connection con = connection();
 		
 		PreparedStatement pst = con.prepareStatement("insert into userinfo values(?,?,?,?,?,?)");
-		
-		pst.setInt(1,user.getUserid());
+		Dao dao = new Dao();
+		pst.setInt(1, dao.getUserId());
 		pst.setString(2, user.getUsername());
 		pst.setString(3, user.getUsermail());
 		pst.setLong(4, user.getUsercontact());
@@ -80,8 +80,9 @@ public class Dao {
 	{
 		
 		Connection con = connection();
+		Dao dao = new Dao();
 		PreparedStatement pst = con.prepareStatement("insert into task values(?,?,?,?,?,?,?)");
-		pst.setInt(1, task.getTaskid());
+		pst.setInt(1, dao.getTaskId());
 		pst.setString(2, task.getTasktitle());
 		pst.setString(3, task.getTaskdescription());
 		pst.setString(4, task.getTaskpriority());
@@ -145,16 +146,27 @@ public class Dao {
 			return 1;
 		}
 	} 
-	public void editTask(Task taskvalue) throws ClassNotFoundException, SQLException
+	public void editTask(int id,String title, String description, String priority, String duedate, String status) throws ClassNotFoundException, SQLException
 	{
 		Connection con = connection();
-		PreparedStatement pst = con.prepareStatement("update task Set tasktitle= ?,taskdescription= ?,taskpriority= ?,taskduedate= ?,taskstatus=? where taskid=?");
-		pst.setString(1, taskvalue.getTasktitle());
-		pst.setString(2, taskvalue.getTaskdescription());
-		pst.setString(3, taskvalue.getTaskpriority());
-		pst.setString(4, taskvalue.getTaskduedate());
-		pst.setString(5, taskvalue.getTaskstatus());
-		pst.setInt(6,taskvalue.getTaskid());
+		PreparedStatement pst = con.prepareStatement("update task Set tasktitle=?,taskdescription=?,taskpriority=?,taskduedate=?,taskstatus=? where taskid=?");
+		pst.setString(1,title);
+		pst.setString(2, description);
+		pst.setString(3, priority);
+		pst.setString(4, duedate);
+		pst.setString(5, status);
+		pst.setInt(6,id);
 		pst.executeUpdate();
+	}
+
+	public int imgupdate(byte[] newimg,int userid) throws SerialException, SQLException, ClassNotFoundException
+	{
+		Connection con = connection();
+		PreparedStatement pst = con.prepareStatement("update userinfo set userimg=? where userid=?");
+	
+		pst.setBlob(1, new SerialBlob(newimg));
+		pst.setInt(2, userid);
+		
+		return pst.executeUpdate();
 	}
 }
