@@ -31,12 +31,12 @@ position: relative;
 #a1
 {
 margin-top: 90px;
-margin-left: 300px;
+margin-left: 350px;
 }
 #a2
 {
 margin-top: 10px;
-margin-left: 300px;
+margin-left: 350px;
 }
 #a3
 {
@@ -49,7 +49,7 @@ border-radius: 100%;
 
 #b1
 {
-margin-left: 300px;
+margin-left: 350px;
 display: inline-block;
 }
 #b2
@@ -80,7 +80,7 @@ background-repeat: no-repeat;
 background-size: cover;
 color: white;
 }
-button
+#butt
 {
 background: black;
 color: white;
@@ -88,7 +88,7 @@ width: 200px;
 padding: 10px;
 font-size: 20px;
 }
-button:hover
+#butt:hover
 {
  background: white;
  color: black;
@@ -101,6 +101,25 @@ color: white;
 a
 {
 color: red;
+}
+td:hover
+{
+background-color: black;
+}
+th:hover
+{
+background-color: black;
+}
+#selectimg
+{
+margin-left: 300px;
+}
+#newimg {
+    display: none;
+}
+#newimg:target {
+    display: block;
+    margin-left: 300px;
 }
 </style>
 </head>
@@ -118,8 +137,17 @@ color: red;
 	
 	<% String image = new String(Base64.getEncoder().encode(user.getUserimage()));%>
 	
+	 <button id="selectimg" onclick="location.href='#newimg'"><i class="fa-solid fa-pen"></i></button>
+	
+	
+	 <form id="newimg" action="imgchange" method="post" enctype="multipart/form-data">
+	 	<%request.setAttribute("userid", user.getUserid()); %>
+        <input type="file" name="newimg">
+        <input type="submit">
+    </form>
+
 	<img id="a3" class="a" alt="" src="data:image/jpeg;base64,<%=image%>" height="250" width="250">
-	<h3><a id="b1" href="addtask.jsp"><button>Add task</button></a><br><br><br></h3>
+	<h3><a id="b1" href="addtask.jsp"><button id="butt">Add task</button></a><br><br><br></h3>
 	
 	
 	<%List<Task> tasks = (List)request.getAttribute("tasks"); %>
@@ -139,7 +167,6 @@ color: red;
 	<th>Edit/Update</th>
 	<th>Delete</th>
 	</tr>
-	
 	<% int num = 1; %>
 	<% for (Task task: tasks) {%>
 	<tr>
@@ -161,6 +188,6 @@ color: red;
 	</table>
 
          
-    
+    <script src="https://kit.fontawesome.com/ca63879256.js" crossorigin="anonymous"></script>
 </body>
 </html>
