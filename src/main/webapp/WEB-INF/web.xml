@@ -7,7 +7,7 @@
   
   
   <listener>
-    <listener-class>dto.SetPriority</listener-class>
+    <listener-class>dto.MyServletContextListener</listener-class>
 </listener>
 
 </web-app>
