@@ -38,14 +38,12 @@ public class MyServletContextListener implements ServletContextListener {
 
                 PreparedStatement updateStmt = con.prepareStatement("UPDATE task SET taskpriority = ? WHERE taskid = ?");
                 updateStmt.setString(1, priority);
-                updateStmt.setInt(2, rs.getInt(1)); // Assuming taskid is the first column
+                updateStmt.setInt(2, rs.getInt(1));
                 updateStmt.executeUpdate();
-                updateStmt.close(); // Close the prepared statement
+                updateStmt.close();
             }
 
-            rs.close(); // Close the result set
-            pst.close(); // Close the prepared statement
-            con.close(); // Close the connection
+           
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +51,6 @@ public class MyServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        // Cleanup code if needed
+    }
     }
 }
