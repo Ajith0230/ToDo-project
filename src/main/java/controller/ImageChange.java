@@ -2,8 +2,11 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +15,11 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import dao.Dao;
+import dto.Task;
 import dto.User;
 
 @WebServlet("/imgchange")
+@MultipartConfig
 public class ImageChange extends HttpServlet {
 
     @Override
@@ -22,31 +27,29 @@ public class ImageChange extends HttpServlet {
         Part imagePart = req.getPart("newimg");
         byte[] newImage = imagePart.getInputStream().readAllBytes();
         int userId = Integer.parseInt(req.getParameter("userid"));
-
+        
         Dao dao = new Dao();
 
         try {
             int res = dao.imgupdate(newImage, userId);
 
             if (res > 0) {
-                // Update user's session with new image data
-                HttpSession session = req.getSession();
-                User user = (User) session.getAttribute("user");
-                user.setUserimage(newImage);
-                session.setAttribute("user", user);
-
-                // Redirect to home.jsp
-                resp.sendRedirect("home.jsp");
+            	
+            	HttpSession session = req.getSession();
+				User user = (User)session.getAttribute("user");
+				user.setUserimage(newImage);
+				req.setAttribute("tasks", dao.getAllTasks(user.getUserid()));
+				
+				req.getRequestDispatcher("home.jsp").include(req, resp);
+             
             } else {
-                // Handle the case when the image update fails
-                // Provide appropriate feedback to the user
-                resp.sendRedirect("error.jsp"); // For example, redirect to an error page
+
+                resp.sendRedirect("error.jsp"); 
             }
         } catch (ClassNotFoundException | SQLException e) {
-            // Log the exception
+            
             e.printStackTrace();
 
-            // Redirect to an error page
             resp.sendRedirect("error.jsp");
         }
     }
