@@ -27,7 +27,6 @@ public class MyServletContextListener implements ServletContextListener {
                 String priority;
                 LocalDate currentDate = LocalDate.now();
                 int result  = (int) ChronoUnit.DAYS.between(currentDate, dueDate);
-                System.out.println(result);
                 if (result > 5) {
                     priority = "low";
                 } else if (result > 3) {
