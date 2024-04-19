@@ -21,17 +21,17 @@ public class AddTask extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		
+		Dao dao = new Dao();
 		String tasktitle = req.getParameter("tasktitle");
 		String taskdescription = req.getParameter("taskdescription");
-		String taskpriority = req.getParameter("taskpriority");
 		String taskduedate = req.getParameter("taskduedate");
+		String taskpriority = dao.taskPriority(taskduedate);
 		
 		
 		User user =(User) req.getSession().getAttribute("user");
 		int userid = user.getUserid();
 		
-		Dao dao = new Dao();
+		
 		try {
 		Task task = new Task(dao.getTaskId() ,tasktitle, taskdescription, taskpriority, taskduedate, "pending", userid);
 		
@@ -42,8 +42,9 @@ public class AddTask extends HttpServlet {
 				HttpSession session = req.getSession();
 				User u = (User)session.getAttribute("user");
 				req.setAttribute("tasks", dao.getAllTasks(u.getUserid()));
-				RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
-				dispatcher.include(req, resp);
+//				RequestDispatcher dispatcher = req.getRequestDispatcher("home.jsp");
+//				dispatcher.include(req, resp);
+				resp.sendRedirect("home.jsp");
 			}
 			else
 			{
