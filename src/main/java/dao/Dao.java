@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,5 +170,42 @@ public class Dao {
 		pst.setInt(2, userid);
 		
 		return pst.executeUpdate();
+	}
+	public Task findtaskById(int taskid) throws ClassNotFoundException, SQLException {
+		Connection con = connection();
+		PreparedStatement pst = con.prepareStatement("SELECT * from task where taskid = ?");
+		pst.setInt(1, taskid);
+		ResultSet rs = pst.executeQuery();
+		rs.next();
+		Task task = new Task(taskid, rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+		return task;
+	}
+
+	public int namechange(int userid,String newname) throws ClassNotFoundException, SQLException {
+		
+		Connection con = connection();
+		PreparedStatement pst = con.prepareStatement("Update userinfo set username=? where userid=?");
+		pst.setString(1, newname);
+		pst.setInt(2, userid);
+		return pst.executeUpdate();
+	}
+	
+	public String taskPriority(String duedate)
+	{
+		
+		LocalDate dueDate = LocalDate.parse(duedate);
+        String priority;
+        LocalDate currentDate = LocalDate.now();
+        int result  = (int) ChronoUnit.DAYS.between(currentDate, dueDate);
+       
+        if (result > 5) {
+            priority = "low";
+        } else if (result >= 3) {
+            priority = "medium";
+        } else {	
+            priority = "high";
+        }
+		return priority;
+		
 	}
 }
