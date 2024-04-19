@@ -11,17 +11,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-body
-{
-
-background-image: url("https://i.pinimg.com/736x/73/84/eb/7384eb896c87f613f4d36bba5a24108b.jpg");
-background-repeat: no-repeat;
-background-size: cover;
-}
+ body
+        {
+           background-image: url("https://cdn.pixabay.com/photo/2019/04/29/14/32/make-the-day-great-4166221_1280.jpg");
+            background-repeat: no-repeat;
+            background-size: 1500px 750px;
+        }
 .a
 {
 display: inline-block;
-color: white;
+color: black;
  filter: drop-shadow(10px 10px 2px black);
 }
 div
@@ -30,23 +29,36 @@ position: relative;
 }
 #a1
 {
-margin-top: 90px;
-margin-left: 350px;
+margin-top: 20px;
+margin-left: 450px;
+
 }
 #a2
 {
 margin-top: 10px;
-margin-left: 350px;
+margin-left: 450px;
+display: inline-block;
 }
 #a3
 {
 position: absolute;
-left: 50px;
-top: 50px;
+left: 120px;
+top: 20px;
 box-shadow: 5px 5px 10px black;
 border-radius: 100%;
+transition: 3s;
 }
+#a3:hover
+{
+border-radius: 0px;
+transform: translatex(900px);
 
+}
+#a4
+{
+margin-top: 0px;
+margin-left: 450px;
+}
 #b1
 {
 margin-left: 350px;
@@ -54,9 +66,9 @@ display: inline-block;
 }
 #b2
 {
-color: white;
+color: black;
 font-size: 20px;
-margin-left: 50px;
+margin-left: 120px;
 }
 #b3
 {
@@ -67,6 +79,7 @@ text-align: center;
 }
 th,tr
 {
+background-color:black;
 padding: 20px;
 }
 #img1
@@ -75,9 +88,7 @@ padding: 20px;
 }
 table
 {
-background-image: url("https://st5.depositphotos.com/35914836/63547/i/450/depositphotos_635479512-stock-photo-brown-wooden-wall-texture-background.jpg" );
-background-repeat: no-repeat;
-background-size: cover;
+backdrop-filter: blur(10px);
 color: white;
 }
 #butt
@@ -92,6 +103,7 @@ font-size: 20px;
 {
  background: white;
  color: black;
+ cursor: pointer;
 }
 input
 {
@@ -101,47 +113,123 @@ color: white;
 a
 {
 color: red;
+text-decoration: none;
 }
 td:hover
 {
-background-color: black;
+background-color: orange;
 }
 th:hover
 {
-background-color: black;
+background-color: orange;
 }
 #selectimg
 {
-margin-left: 300px;
+margin-left: 380px;
+height: 20px;
+width: 30px;
+background: white;
 }
 #newimg {
     display: none;
 }
 #newimg:target {
     display: block;
-    margin-left: 300px;
+    margin-left: 380px;
 }
+#newname {
+    display: none;
+}
+#newname:target {
+    display: block;
+    
+}
+#logoff
+{
+margin-left: 1420px;
+color:black;
+font-size: 30px;
+border: 1px double black;
+padding: 10px;
+box-shadow: 10px 10px 5px black;
+background-color: red;
+}
+input
+{
+text-align: center;
+}
+.sidebar {
+    
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: #333;
+    padding-top: 20px; /* Adjust as needed */
+    color: white;
+    position: absolute;
+    overflow: scroll;
+ 	display: none;
+}
+
+.sidebar a {
+	
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background-color: #555;
+}
+
+.main-content {
+    padding: 20px;
+    position: absolute;
+}
+#sidebar
+{
+position: absolute;
+}
+#sbbtn
+{
+margin-top: 50px;
+margin-left: 20px;
+}
+
 </style>
+
 </head>
 <body>
-
-     <%
+ 	<%
      User user = (User)request.getSession().getAttribute("user");
      %>
-    
+	<% String image = new String(Base64.getEncoder().encode(user.getUserimage()));%>
+	<button id="sbbtn" onclick="toggle()"><i class="fa-solid fa-bars"></i></button>
+    <div class="sidebar" id="sidebar">
+        <img src="data:image/jpeg;base64,<%=image%>" alt="Sidebar Image" style="width: 100px; height: 100px; border-radius: 50%; margin-left: 10px">
+        <a href="#"><i class="fa-regular fa-user"></i> Profile</a>
+        <a href="#"><i class="fa-solid fa-gear"></i> Setting</a>
+        <!-- Add more sidebar links as needed -->
+    </div>
+    <div class="main-content">
 	<h1 id="a1" class="a">Welcome <%= user.getUsername() %></h1><br>
 	 
-	<h2 id="a2" class="a"><%= user.getUsername() %><br>
-	<%= user.getUsermail() %>
-	</h2><br>
+	<h2 id="a2" class="a"><%= user.getUsername()%>
+	<button  onclick="location.href='#newname'"><i class="fa-solid fa-pen"></i></button>
+		 <form id="newname" action="namechange" method="post">
+	 	<input style="display: none;" type="number" name="userid" value="<%=user.getUserid()%>">
+        <input type="text" name="newname">
+        <input type="submit">
+    </form>
+</h2>    <br>
 	
-	<% String image = new String(Base64.getEncoder().encode(user.getUserimage()));%>
+	<h2 id="a4" class="a"><%= user.getUsermail() %></h2><br>
 	
 	 <button id="selectimg" onclick="location.href='#newimg'"><i class="fa-solid fa-pen"></i></button>
-	
-	
 	 <form id="newimg" action="imgchange" method="post" enctype="multipart/form-data">
-	 	<%request.setAttribute("userid", user.getUserid()); %>
+	 	<input style="display: none;" type="number" name="userid" value="<%=user.getUserid()%>">
         <input type="file" name="newimg">
         <input type="submit">
     </form>
@@ -150,7 +238,8 @@ margin-left: 300px;
 	<h3><a id="b1" href="addtask.jsp"><button id="butt">Add task</button></a><br><br><br></h3>
 	
 	
-	<%List<Task> tasks = (List)request.getAttribute("tasks"); %>
+	<%Dao dao=new Dao();
+	List<Task> tasks = dao.getAllTasks(user.getUserid()); %>
 	
 	
 	<h3 id="b2">Tasks</h3>
@@ -187,7 +276,24 @@ margin-left: 300px;
 	
 	</table>
 
-         
-    <script src="https://kit.fontawesome.com/ca63879256.js" crossorigin="anonymous"></script>
+      <a id="logoff" href="logoff"><i class="fa-solid fa-right-from-bracket"></i></a>   
+    </div>
+   <script src="https://kit.fontawesome.com/ca63879256.js" crossorigin="anonymous"></script>
+<script>
+    function toggle() {
+        let sidebar = document.getElementById("sidebar");
+        let sbbtn = document.getElementById("sbbtn");
+        if (sidebar.style.display === "none" || sidebar.style.display === "") {
+            sidebar.style.display = "block";
+            sbbtn.style.marginLeft = "260px";
+        } else {
+            sidebar.style.display = "none";
+            sbbtn.style.marginLeft = "20px";
+        }
+    }
+</script>
+    
+    
 </body>
 </html>
+     
